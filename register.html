@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | FlameX Gaming</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #111;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px red;
+    }
+
+    h2 {
+      text-align: center;
+      color: red;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+      background-color: #222;
+      color: #fff;
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid red;
+    }
+
+    .btn {
+      background-color: red;
+      color: white;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Register for Tournament</h2>
+    <form id="registrationForm">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="username">In-Game Username / Game uid: </label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="team">Team Name (optional):</label>
+      <input type="text" id="team" name="team">
+
+      <label for="platform">Platform:</label>
+      <select id="platform" name="platform" required>
+        <option value="android">Android</option>
+        <option value="ios">iOS</option>
+      </select>
+
+      <label for="region">Region (India):</label>
+      <select id="region" name="region" required>
+        <option value="andhra-pradesh">Andhra Pradesh</option>
+        <option value="arunachal-pradesh">Arunachal Pradesh</option>
+        <option value="assam">Assam</option>
+        <option value="bihar">Bihar</option>
+        <option value="chhattisgarh">Chhattisgarh</option>
+        <option value="goa">Goa</option>
+        <option value="gujarat">Gujarat</option>
+        <option value="haryana">Haryana</option>
+        <option value="himachal-pradesh">Himachal Pradesh</option>
+        <option value="jharkhand">Jharkhand</option>
+        <option value="karnataka">Karnataka</option>
+        <option value="kerala">Kerala</option>
+        <option value="madhya-pradesh">Madhya Pradesh</option>
+        <option value="maharashtra">Maharashtra</option>
+        <option value="manipur">Manipur</option>
+        <option value="meghalaya">Meghalaya</option>
+        <option value="mizoram">Mizoram</option>
+        <option value="nagaland">Nagaland</option>
+        <option value="odisha">Odisha</option>
+        <option value="punjab">Punjab</option>
+        <option value="rajasthan">Rajasthan</option>
+        <option value="sikkim">Sikkim</option>
+        <option value="tamil-nadu">Tamil Nadu</option>
+        <option value="telangana">Telangana</option>
+        <option value="tripura">Tripura</option>
+        <option value="uttar-pradesh">Uttar Pradesh</option>
+        <option value="uttarakhand">Uttarakhand</option>
+        <option value="west-bengal">West Bengal</option>
+        <option value="delhi">Delhi</option>
+        <option value="jammu-kashmir">Jammu & Kashmir</option>
+        <option value="ladakh">Ladakh</option>
+        <option value="puducherry">Puducherry</option>
+        <option value="chandigarh">Chandigarh</option>
+      </select>
+
+      <button type="submit" class="btn">Register</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('registrationForm');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        name: form.name.value,
+        email: form.email.value,
+        username: form.username.value,
+        team: form.team.value,
+        platform: form.platform.value,
+        region: form.region.value,
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          alert('Tournament details will be sent to your email.');
+          form.reset();
+        } else {
+          const errorData = await response.json();
+          alert('Error: ' + (errorData.error || 'Failed to register'));
+        }
+      } catch (error) {
+        alert('Error: Could not connect to the server.');
+      }
+    });
+  </script>
+</body>
+</html>
